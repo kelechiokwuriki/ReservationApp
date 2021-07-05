@@ -28,8 +28,7 @@
                                 <input type="text" v-model="reservationSettings.reservationTimeZone" class="form-control" />
                             </div>
                         </form>
-                        <button type="submit" class="btn btn-primary" @click="submitSettings">Submit</button>
-
+                        <button type="submit" class="btn btn-primary" @click="saveSettings">Save</button>
                     </div>
                 </div>
             </div>
@@ -53,7 +52,18 @@ export default {
         }
     },
     methods: {
-        submitSettings() {}
+        saveSettings() {},
+        fetchPreviousReservationSettings() {
+            axios.get('/api/reservationSettings').then(response => {
+                this.reservationSettings.lengthOfReservation = response.data.lengthOfReservation;
+                this.reservationSettings.numberOfReservations = response.data.numberOfReservations;
+                this.reservationSettings.reservationType = response.data.reservationType;
+                this.reservationSettings.reservationTimeZone = response.data.reservationTimeZone;
+            })
+        }
+    },
+    created() {
+        this.fetchPreviousReservationSettings();
     },
 
 }

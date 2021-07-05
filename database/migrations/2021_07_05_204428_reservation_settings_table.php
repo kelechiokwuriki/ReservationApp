@@ -16,9 +16,10 @@ class ReservationSettingsTable extends Migration
         Schema::create('reservation_settings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('numberOfReservations');
-            $table->string('lengthOfReservation');
-            $table->string('reservationType');
-            $table->string('reservationTimeZone');
+            $table->enum('lengthOfReservation', ['day', 'month', 'week']);
+            $table->enum('reservationType', ['individual', 'group']);
+            $table->enum('reservationTimeZone', ['UTC', 'Asia/Kolkata', 'America/NewYork']);
+            $table->timestamps();
         });
     }
 
@@ -29,6 +30,6 @@ class ReservationSettingsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('reservation_settings');
     }
 }

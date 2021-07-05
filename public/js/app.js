@@ -1980,7 +1980,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1995,7 +1994,20 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    submitSettings: function submitSettings() {}
+    saveSettings: function saveSettings() {},
+    fetchPreviousReservationSettings: function fetchPreviousReservationSettings() {
+      var _this = this;
+
+      axios.get('/api/reservationSettings').then(function (response) {
+        _this.reservationSettings.lengthOfReservation = response.data.lengthOfReservation;
+        _this.reservationSettings.numberOfReservations = response.data.numberOfReservations;
+        _this.reservationSettings.reservationType = response.data.reservationType;
+        _this.reservationSettings.reservationTimeZone = response.data.reservationTimeZone;
+      });
+    }
+  },
+  created: function created() {
+    this.fetchPreviousReservationSettings();
   }
 });
 
@@ -38450,9 +38462,9 @@ var render = function() {
               {
                 staticClass: "btn btn-primary",
                 attrs: { type: "submit" },
-                on: { click: _vm.submitSettings }
+                on: { click: _vm.saveSettings }
               },
-              [_vm._v("Submit")]
+              [_vm._v("Save")]
             )
           ])
         ])

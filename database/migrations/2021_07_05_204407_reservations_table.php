@@ -18,6 +18,7 @@ class ReservationsTable extends Migration
             $table->string('type');
             $table->string('contact_email');
             $table->timestamp('reservation_timestamp');
+            $table->timestamps();
         });
     }
 
