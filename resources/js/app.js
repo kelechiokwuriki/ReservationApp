@@ -29,6 +29,12 @@ Vue.component('settings-component', require('./components/SettingsComponent.vue'
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+ import vSelect from 'vue-select';
+ import 'vue-select/dist/vue-select.css';
+
+
+ Vue.component('v-select', vSelect)
+
 const app = new Vue({
     el: '#app',
 });
