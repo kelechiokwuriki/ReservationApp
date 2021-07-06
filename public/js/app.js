@@ -1966,8 +1966,10 @@ __webpack_require__.r(__webpack_exports__);
       var userIds = this.reservation.userIds.replace(/ /g, '').split(','); //remove whitespace and convert to array
 
       var data = {
-        userIds: userIds,
-        reservation_datetime: [this.reservation.reservationDateTime]
+        data: {
+          userIds: userIds,
+          reservation_datetime: [this.reservation.reservationDateTime]
+        }
       };
       axios.post('/api/reservation', data).then(function (response) {
         console.log(response.data);
