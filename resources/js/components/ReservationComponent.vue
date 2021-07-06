@@ -45,10 +45,8 @@
                 let userIds = this.reservation.userIds.replace(/ /g,'').split(','); //remove whitespace and convert to array
 
                 let data = {
-                    data: {
-                        userIds,
-                        reservation_datetime: [this.reservation.reservationDateTime]
-                    }
+                    userIds,
+                    reservation_datetime: [this.reservation.reservationDateTime]
                 }
 
                 axios.post('/api/reservation', data).then(response => {

@@ -32,11 +32,9 @@ Vue.component('settings-component', require('./components/SettingsComponent.vue'
  import 'vue-toast-notification/dist/theme-sugar.css';
  import vSelect from 'vue-select';
  import 'vue-select/dist/vue-select.css';
- import VueTagsInput from '@johmun/vue-tags-input';
 
 
  Vue.component('v-select', vSelect)
- Vue.component('vue-tags-input', VueTagsInput)
 
 
  Vue.use(VueToast, {
