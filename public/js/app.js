@@ -1948,16 +1948,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       reservation: {
         reservationDateTime: '',
-        userIds: []
+        userIds: null
       },
       tag: ''
     };
@@ -1967,7 +1963,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submitReservation: function submitReservation() {
-      axios.post('/api/reservation', this.reservation);
+      this.reservation.userIds = this.reservation.userIds.replace(/ /g, '').split(','); //remove whitespace and convert to array
+
+      axios.post('/api/reservation', this.reservation).then(function (response) {
+        console.log(response.data);
+      });
     }
   }
 });
@@ -38385,32 +38385,41 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("form", [
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  _c("label", [
-                    _vm._v("User IDs (type the id and press the enter key)")
-                  ]),
-                  _vm._v(" "),
-                  _c("vue-tags-input", {
-                    attrs: { tags: _vm.reservation.userIds },
-                    on: {
-                      "tags-changed": function(newTags) {
-                        return (_vm.reservation.userIds = newTags)
-                      }
-                    },
-                    model: {
-                      value: _vm.tag,
-                      callback: function($$v) {
-                        _vm.tag = $$v
-                      },
-                      expression: "tag"
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", [
+                  _vm._v("User IDs (type the id separated by a comma)")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.trim",
+                      value: _vm.reservation.userIds,
+                      expression: "reservation.userIds",
+                      modifiers: { trim: true }
                     }
-                  })
-                ],
-                1
-              ),
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.reservation.userIds },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.reservation,
+                        "userIds",
+                        $event.target.value.trim()
+                      )
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", [_vm._v("When is the reservation?")]),

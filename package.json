@@ -24,7 +24,6 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "@johmun/vue-tags-input": "^2.1.0",
         "vue-select": "^3.11.2",
         "vue-toast-notification": "^0.6.2"
     }

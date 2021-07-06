@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('reservationSettings', 'Api\ReservationSettingsController');
+Route::resource('reservation', 'Api\ReservationController');
+

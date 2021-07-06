@@ -8,12 +8,8 @@
                     <div class="card-body">
                         <form>
                             <div class="form-group">
-                                <label>User IDs (type the id and press the enter key)</label>
-                                 <vue-tags-input
-                                    v-model="tag"
-                                    :tags="reservation.userIds"
-                                    @tags-changed="newTags => reservation.userIds = newTags"
-                                    />
+                                <label>User IDs (type the id separated by a comma)</label>
+                                 <input type="text" class="form-control" v-model.trim="reservation.userIds" />
                             </div>
 
                              <div class="form-group">
@@ -36,7 +32,7 @@
             return {
                 reservation: {
                     reservationDateTime: '',
-                    userIds: []
+                    userIds: null
                 },
                 tag: '',
             }
@@ -46,7 +42,11 @@
         },
         methods: {
             submitReservation() {
-                axios.post('/api/reservation', this.reservation)
+                this.reservation.userIds = this.reservation.userIds.replace(/ /g,'').split(','); //remove whitespace and convert to array
+
+                axios.post('/api/reservation', this.reservation).then(response => {
+                    console.log(response.data);
+                })
             }
         },
     }
