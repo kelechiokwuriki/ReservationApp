@@ -22,12 +22,8 @@ class ReservationService
         $this->reservationSettingsRepository = $reservationSettingsRepository;
         $this->reservationModel = $reservationModel;
     }
-    public function createReservation(array $reservation)
+    public function createReservation(array $reservation): array
     {
-        // "data" : {
-        //     "is_booking_restricted" : true,
-        //     "restricted_user_ids" : [3, 6]
-        // }
         $restrictedUserIds = [];
 
         $parsedDate = Carbon::parse($reservation['reservation_datetime'][0]);
@@ -72,11 +68,6 @@ class ReservationService
                             // user already has reservation, restrict
                             $restrictedUserIds[] = $user->id;
                         }
-                    }
-
-                    // we have rejected user ids so exit
-                    if (count($restrictedUserIds) > 0) {
-                        return;
                     }
 
                     // if all users are not part of an exisiting group reservation,
