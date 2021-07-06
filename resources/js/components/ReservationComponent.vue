@@ -8,11 +8,11 @@
                     <div class="card-body">
                         <form>
                             <div class="form-group">
-                                <label>User IDs</label>
+                                <label>User IDs (type the id and press the enter key)</label>
                                  <vue-tags-input
                                     v-model="tag"
                                     :tags="reservation.userIds"
-                                    @tags-changed="newTags => tags = newTags"
+                                    @tags-changed="newTags => reservation.userIds = newTags"
                                     />
                             </div>
 
@@ -39,7 +39,6 @@
                     userIds: []
                 },
                 tag: '',
-                tags: []
             }
         },
         mounted() {
@@ -47,7 +46,7 @@
         },
         methods: {
             submitReservation() {
-
+                axios.post('/api/reservation', this.reservation)
             }
         },
     }

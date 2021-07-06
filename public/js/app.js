@@ -1959,15 +1959,16 @@ __webpack_require__.r(__webpack_exports__);
         reservationDateTime: '',
         userIds: []
       },
-      tag: '',
-      tags: []
+      tag: ''
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   methods: {
-    submitReservation: function submitReservation() {}
+    submitReservation: function submitReservation() {
+      axios.post('/api/reservation', this.reservation);
+    }
   }
 });
 
@@ -38388,13 +38389,15 @@ var render = function() {
                 "div",
                 { staticClass: "form-group" },
                 [
-                  _c("label", [_vm._v("User IDs")]),
+                  _c("label", [
+                    _vm._v("User IDs (type the id and press the enter key)")
+                  ]),
                   _vm._v(" "),
                   _c("vue-tags-input", {
                     attrs: { tags: _vm.reservation.userIds },
                     on: {
                       "tags-changed": function(newTags) {
-                        return (_vm.tags = newTags)
+                        return (_vm.reservation.userIds = newTags)
                       }
                     },
                     model: {
