@@ -17,6 +17,6 @@ class ReservationController extends Controller
 
     public function store(Request $reservationRequest)
     {
-        return $this->reservationService->createReservation($reservationRequest->all())
+        return $this->reservationService->createReservation($reservationRequest->all());
     }
 }

@@ -14,7 +14,7 @@
 
                              <div class="form-group">
                                 <label>When is the reservation?</label>
-                                <input type="datetime" min="0" v-model="reservation.reservationDateTime" class="form-control" />
+                                <input type="datetime-local" v-model="reservation.reservationDateTime" class="form-control" />
                             </div>
 
                         </form>
@@ -42,9 +42,14 @@
         },
         methods: {
             submitReservation() {
-                this.reservation.userIds = this.reservation.userIds.replace(/ /g,'').split(','); //remove whitespace and convert to array
+                let userIds = this.reservation.userIds.replace(/ /g,'').split(','); //remove whitespace and convert to array
 
-                axios.post('/api/reservation', this.reservation).then(response => {
+                let data = {
+                    userIds,
+                    reservation_datetime: [this.reservation.reservationDateTime]
+                }
+
+                axios.post('/api/reservation', data).then(response => {
                     console.log(response.data);
                 })
             }

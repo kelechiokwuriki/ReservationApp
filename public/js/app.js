@@ -1963,9 +1963,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submitReservation: function submitReservation() {
-      this.reservation.userIds = this.reservation.userIds.replace(/ /g, '').split(','); //remove whitespace and convert to array
+      var userIds = this.reservation.userIds.replace(/ /g, '').split(','); //remove whitespace and convert to array
 
-      axios.post('/api/reservation', this.reservation).then(function (response) {
+      var data = {
+        userIds: userIds,
+        reservation_datetime: [this.reservation.reservationDateTime]
+      };
+      axios.post('/api/reservation', data).then(function (response) {
         console.log(response.data);
       });
     }
@@ -38434,7 +38438,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "datetime", min: "0" },
+                  attrs: { type: "datetime-local" },
                   domProps: { value: _vm.reservation.reservationDateTime },
                   on: {
                     input: function($event) {

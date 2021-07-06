@@ -4,6 +4,7 @@
 namespace App\Services\Reservation;
 
 use App\Repositories\Reservation\ReservationRepository;
+use Illuminate\Support\Facades\Log;
 
 class ReservationService
 {
@@ -16,6 +17,7 @@ class ReservationService
     }
     public function createReservation(array $reservation)
     {
-        return $this->reservationRepository->create($reservation);
+        Log::debug($reservation);
+        // return $this->reservationRepository->create($reservation);
     }
 }
