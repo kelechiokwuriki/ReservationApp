@@ -60,22 +60,36 @@ class ReservationService
             case 'group': {
                 if ($existingReservation && $existingReservation->type === 'group') {
                     $acceptedUserIds = [];
+
                     foreach ($existingReservation->users as $user) {
+                         // if group reservation is found and all the users are for that reservation
+                         // then reject them else create for those not in the exisiting reservation
+                         // and reject the others
                         if (!in_array($user->id, $reservation['userIds'])) {
-                            // user not part of exisiting group reservation, so accept
+                            // user not part of exisiting group reservation, so accept user for now
                             $acceptedUserIds[] = $user->id;
-                            $reservationCreated = $this->reservationRepository->create([
-                                'type' => 'group',
-                                'contact_email' => 'test@test.com',
-                                'reservation_timestamp' => $parsedDate
-                            ]);
-                            // attach reservation to all users.
-                            // this also assumes the userIds are already exisiting in the app.
-                            $reservationCreated->users()->sync($acceptedUserIds);
                         } else {
                             // user already has reservation, restrict
                             $restrictedUserIds[] = $user->id;
                         }
+                    }
+
+                    // we have rejected user ids so exit
+                    if (count($restrictedUserIds) > 0) {
+                        return;
+                    }
+
+                    // if all users are not part of an exisiting group reservation,
+                    // then create
+                    if (!array_diff($acceptedUserIds, $reservation['userIds'])) {
+                        $reservationCreated = $this->reservationRepository->create([
+                            'type' => 'group',
+                            'contact_email' => 'test@test.com',
+                            'reservation_timestamp' => $parsedDate
+                        ]);
+                        // attach reservation to all users.
+                        // this also assumes the userIds are already exisiting in the app.
+                        $reservationCreated->users()->sync($acceptedUserIds);
                     }
                 }
             }
@@ -85,7 +99,6 @@ class ReservationService
                 break;
 
         }
-        Log::debug($restrictedUserIds);
 
         return [
             "is_booking_restricted" => count($restrictedUserIds) > 0 ? true : false,
