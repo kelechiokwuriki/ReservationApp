@@ -28,12 +28,18 @@ Vue.component('settings-component', require('./components/SettingsComponent.vue'
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+ import VueToast from 'vue-toast-notification';
+ import 'vue-toast-notification/dist/theme-sugar.css';
  import vSelect from 'vue-select';
  import 'vue-select/dist/vue-select.css';
 
 
  Vue.component('v-select', vSelect)
+
+ Vue.use(VueToast, {
+    position: 'top-right',
+    duration: 3000
+})
 
 const app = new Vue({
     el: '#app',

@@ -19,4 +19,13 @@ class ReservationSettingsController extends Controller
         return $this->reservationSettingsService->getSettings();
     }
 
+    public function update(Request $request, $id)
+    {
+        return $this->reservationSettingsService->updateSettings($id, $request->all());
+    }
+
+    public function store(Request $request, $id)
+    {
+        return $this->reservationSettingsService->updateSettings($id, $request->all());
+    }
 }

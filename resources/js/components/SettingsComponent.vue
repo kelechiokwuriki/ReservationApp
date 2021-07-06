@@ -28,7 +28,9 @@
                                 <input type="text" v-model="reservationSettings.reservationTimeZone" class="form-control" />
                             </div>
                         </form>
-                        <button type="submit" class="btn btn-primary" @click="saveSettings">Save</button>
+                        <button type="submit" class="btn btn-success" @click="createSettings" v-if="settingsExisted">Create Settings</button>
+                        <button type="submit" class="btn btn-success" @click="saveSettings" v-else>Save Changes</button>
+
                     </div>
                 </div>
             </div>
@@ -47,18 +49,32 @@ export default {
                 lengthOfReservation: '',
                 numberOfReservations: 0,
                 reservationType: '',
-                reservationTimeZone: ''
-            }
+                reservationTimeZone: '',
+                id: null
+            },
+            settingsExisted: false
         }
     },
     methods: {
-        saveSettings() {},
+        saveSettings() {
+            axios.put(`/api/reservationSettings/${this.reservationSettings.id}`, this.reservationSettings).then(response => {
+                this.$toast.open(`Settings updated successfully`);
+                console.log(response.data);
+            })
+        },
+        createSettings() {
+             axios.post(`/api/reservationSettings`, this.reservationSettings).then(response => {
+                this.$toast.open(`Settings created successfully`);
+                console.log(response.data);
+            })
+        },
         fetchPreviousReservationSettings() {
             axios.get('/api/reservationSettings').then(response => {
                 this.reservationSettings.lengthOfReservation = response.data.lengthOfReservation;
                 this.reservationSettings.numberOfReservations = response.data.numberOfReservations;
                 this.reservationSettings.reservationType = response.data.reservationType;
                 this.reservationSettings.reservationTimeZone = response.data.reservationTimeZone;
+                this.reservationSettings.id = response.data.id;
             })
         }
     },

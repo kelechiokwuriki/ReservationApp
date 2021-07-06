@@ -19,8 +19,13 @@ class ReservationSettingsService
         return $this->reservationSettingsRepository->latest('created_at')->first();
     }
 
-    public function saveSettings(array $settings)
+    public function createSettings(array $settings)
     {
         return $this->reservationSettingsRepository->create($settings);
+    }
+
+    public function updateSettings($id, $data)
+    {
+        return $this->reservationSettingsRepository->update($id, $data);
     }
 }
