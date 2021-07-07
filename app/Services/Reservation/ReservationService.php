@@ -33,7 +33,7 @@ class ReservationService
         $existingReservation = $this->reservationRepository->where('created_at', $parsedDate)->first();
 
         switch ($reservationSettings->reservationType) {
-            case 'individual': {
+            case 'individual':
                 if ($existingReservation && $existingReservation->type === 'individual') {
                     foreach ($existingReservation->users as $user) {
                         if (!in_array($user->id, $reservation['userIds'])) {
@@ -50,10 +50,9 @@ class ReservationService
                         }
                     }
                 }
-            }
             break;
 
-            case 'group': {
+            case 'group':
                 if ($existingReservation && $existingReservation->type === 'group') {
                     $acceptedUserIds = [];
 
@@ -83,7 +82,6 @@ class ReservationService
                         $reservationCreated->users()->sync($acceptedUserIds);
                     }
                 }
-            }
             break;
 
             default:
