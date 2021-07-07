@@ -34,7 +34,7 @@ class ReservationService
 
         switch ($reservationSettings->reservationType) {
             case 'individual':
-                if ($existingReservation && $existingReservation->type === 'individual') {
+                if ($existingReservation && $existingReservation->type === 'individual' && $existingReservation->users) {
                     foreach ($existingReservation->users as $user) {
                         if (!in_array($user->id, $reservation['userIds'])) {
                             $reservationCreated = $this->reservationRepository->create([
@@ -53,15 +53,15 @@ class ReservationService
             break;
 
             case 'group':
-                if ($existingReservation && $existingReservation->type === 'group') {
+                if ($existingReservation && $existingReservation->type === 'group' && isset($existingReservation->users)) {
                     $acceptedUserIds = [];
 
                     foreach ($existingReservation->users as $user) {
-                         // if group reservation is found and all the users are for that reservation
-                         // then reject them else create for those not in the exisiting reservation
-                         // and reject the others
+                        // if group reservation is found and all the users are for that reservation
+                        // then reject them else create for those not in the exisiting reservation
+                        // and reject the others
                         if (!in_array($user->id, $reservation['userIds'])) {
-                            // user not part of exisiting group reservation, so accept user for now
+                            // user not part of exisiting group reservation, accept user for now
                             $acceptedUserIds[] = $user->id;
                         } else {
                             // user already has reservation, restrict
@@ -70,11 +70,11 @@ class ReservationService
                     }
 
                     // if all users are not part of an exisiting group reservation,
-                    // then create
-                    if (!array_diff($acceptedUserIds, $reservation['userIds'])) {
+                    // then create a group reservation for the users
+                    if (count($acceptedUserIds) > 0 && (!array_diff($acceptedUserIds, $reservation['userIds']))) {
                         $reservationCreated = $this->reservationRepository->create([
                             'type' => 'group',
-                            'contact_email' => 'test@test.com',
+                            'contact_email' => 'kelechiokwuriki@gmail.com',
                             'reservation_timestamp' => $parsedDate
                         ]);
                         // attach reservation to all users.
@@ -82,6 +82,15 @@ class ReservationService
                         $reservationCreated->users()->sync($acceptedUserIds);
                     }
                 }
+                // no existing reservation so create on for the users
+                $reservationCreated = $this->reservationRepository->create([
+                    'type' => 'group',
+                    'contact_email' => 'test@test.com',
+                    'reservation_timestamp' => $parsedDate
+                ]);
+                // attach reservation to all users.
+                // this also assumes the userIds are already exisiting in the app.
+                $reservationCreated->users()->sync($reservation['userIds']);
             break;
 
             default:
