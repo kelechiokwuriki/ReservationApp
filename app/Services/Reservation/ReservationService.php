@@ -34,7 +34,7 @@ class ReservationService
 
         switch ($reservationSettings->reservationType) {
             case 'individual':
-                if ($existingReservation && $existingReservation->type === 'individual' && $existingReservation->users) {
+                if ($existingReservation && $existingReservation->type === 'individual' && count($existingReservation->users) > 0) {
                     foreach ($existingReservation->users as $user) {
                         if (!in_array($user->id, $reservation['userIds'])) {
                             $reservationCreated = $this->reservationRepository->create([
@@ -50,10 +50,19 @@ class ReservationService
                         }
                     }
                 }
+                // no existing reservation so create on for the users
+                $reservationCreated = $this->reservationRepository->create([
+                    'type' => 'individual',
+                    'contact_email' => 'test@test.com',
+                    'reservation_timestamp' => $parsedDate
+                ]);
+                // attach reservation to all users.
+                // this also assumes the userIds are already exisiting in the app.
+                $reservationCreated->users()->sync($reservation['userIds']);
             break;
 
             case 'group':
-                if ($existingReservation && $existingReservation->type === 'group' && isset($existingReservation->users)) {
+                if ($existingReservation && $existingReservation->type === 'group' && count($existingReservation->users) > 0) {
                     $acceptedUserIds = [];
 
                     foreach ($existingReservation->users as $user) {
