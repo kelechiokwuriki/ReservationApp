@@ -79,7 +79,7 @@ class ReservationService
                     })->get();
 
                     // if there is any atall
-                    if (isset($existingReservation)) {
+                    if (count($existingReservation) > 0) {
                         $restrictedUserIds[] = $userId;
                     } else {
                         $acceptedUserIds[] = $userId;
