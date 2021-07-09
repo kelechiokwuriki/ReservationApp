@@ -3,13 +3,29 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Add Reservation</div>
+                    <div class="card-header">Add Reservation for a user</div>
 
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-8">
-
-
+                                  <div id="data-table_wrapper" class="dataTables_wrapper no-footer">
+                                    <table id="usersTable" class="table display table-hover text-center" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">S/N</th>
+                                                <th scope="col">User Id</th>
+                                                <th scope="col">Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(user, index) in users" v-bind:key="index">
+                                                <td>{{ index }}</td>
+                                                <td>{{ user.id }}</td>
+                                                <td>{{ user.name }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
                             <div class="col-sm-4">
@@ -26,11 +42,11 @@
                             </div>
 
                         </form>
+                        <button type="submit" class="btn btn-success" @click="submitReservation">Submit Reservation</button>
 
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-success" @click="submitReservation">Submit Reservation</button>
                     </div>
                 </div>
             </div>
@@ -46,7 +62,7 @@
                     reservationDateTime: '',
                     userIds: null
                 },
-                tag: '',
+                users: []
             }
         },
         mounted() {
