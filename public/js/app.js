@@ -1963,13 +1963,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       reservation: {
         reservationDateTime: '',
-        userIds: null
+        userIds: ''
       },
       users: []
     };
@@ -1983,6 +1982,12 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/user').then(function (response) {
         _this.users = response.data;
+      })["catch"](function (error) {})["finally"](function () {
+        $('#usersTable').DataTable({
+          "ordering": false,
+          pageLength: 10,
+          lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Everything']]
+        });
       });
     },
     submitReservation: function submitReservation() {
@@ -1995,6 +2000,11 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/reservation', data).then(function (response) {
         console.log(response.data);
       });
+    }
+  },
+  computed: {
+    disableSubmitButton: function disableSubmitButton() {
+      return this.reservation.reservationDateTime === '' || this.reservation.userIds === '';
     }
   }
 });
@@ -58028,7 +58038,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
         _c("div", { staticClass: "card" }, [
@@ -58060,7 +58070,7 @@ var render = function() {
                           "tbody",
                           _vm._l(_vm.users, function(user, index) {
                             return _c("tr", { key: index }, [
-                              _c("td", [_vm._v(_vm._s(index))]),
+                              _c("td", [_vm._v(_vm._s(index + 1))]),
                               _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(user.id))]),
                               _vm._v(" "),
@@ -58164,7 +58174,10 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-success",
-                    attrs: { type: "submit" },
+                    attrs: {
+                      type: "submit",
+                      disabled: _vm.disableSubmitButton
+                    },
                     on: { click: _vm.submitReservation }
                   },
                   [_vm._v("Submit Reservation")]

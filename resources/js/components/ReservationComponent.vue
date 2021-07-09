@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -19,7 +19,7 @@
                                         </thead>
                                         <tbody>
                                             <tr v-for="(user, index) in users" v-bind:key="index">
-                                                <td>{{ index }}</td>
+                                                <td>{{ index + 1 }}</td>
                                                 <td>{{ user.id }}</td>
                                                 <td>{{ user.name }}</td>
                                             </tr>
@@ -42,9 +42,8 @@
                             </div>
 
                         </form>
-                        <button type="submit" class="btn btn-success" @click="submitReservation">Submit Reservation</button>
-
-                            </div>
+                        <button type="submit" class="btn btn-success" @click="submitReservation" :disabled="disableSubmitButton">Submit Reservation</button>
+                        </div>
                         </div>
 
                     </div>
@@ -60,7 +59,7 @@
             return {
                 reservation: {
                     reservationDateTime: '',
-                    userIds: null
+                    userIds: ''
                 },
                 users: []
             }
@@ -72,6 +71,15 @@
             getUsers() {
                 axios.get('/api/user').then(response => {
                     this.users = response.data;
+                })
+                .catch(error => {
+
+                }).finally(() => {
+                    $('#usersTable').DataTable({
+                        "ordering": false,
+                        pageLength: 10,
+                        lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Everything']]
+                    });
                 })
             },
             submitReservation() {
@@ -87,5 +95,10 @@
                 })
             }
         },
+        computed: {
+            disableSubmitButton() {
+                return this.reservation.reservationDateTime === '' || this.reservation.userIds === '';
+            }
+        }
     }
 </script>

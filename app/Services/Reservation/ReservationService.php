@@ -37,13 +37,14 @@ class ReservationService
         switch ($reservationSettings->reservationType) {
             case 'individual':
                 foreach($reservation['userIds'] as $userId) {
-                    // check if there is a reservation for the userid
+                    // user valid?
                     $user = User::where('id', $userId)->exists();
 
                     if (!$user) {
                         throw new Exception('User with id '. $userId . ' does not exist in system');
                     }
 
+                    // check if reservation has the specified user
                     $existingReservation = Reservation::whereHas('users', function($query) use ($userId){
                         $query->where('user_id', $userId);
                     })->get();
