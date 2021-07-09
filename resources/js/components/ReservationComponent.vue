@@ -6,10 +6,18 @@
                     <div class="card-header">Add Reservation</div>
 
                     <div class="card-body">
-                        <form>
+                        <div class="row">
+                            <div class="col-sm-8">
+
+
+                            </div>
+
+                            <div class="col-sm-4">
+                                   <form>
                             <div class="form-group">
                                 <label>User IDs (type the id separated by a comma)</label>
                                  <input type="text" class="form-control" v-model.trim="reservation.userIds" />
+                                 <small class="text-danger" v-show="reservation.userIds !== null">User IDs must exist in the database</small>
                             </div>
 
                              <div class="form-group">
@@ -18,6 +26,10 @@
                             </div>
 
                         </form>
+
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-success" @click="submitReservation">Submit Reservation</button>
                     </div>
                 </div>
@@ -38,9 +50,14 @@
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            this.getUsers();
         },
         methods: {
+            getUsers() {
+                axios.get('/api/user').then(response => {
+                    this.users = response.data;
+                })
+            },
             submitReservation() {
                 let userIds = this.reservation.userIds.replace(/ /g,'').split(','); //remove whitespace and convert to array
 

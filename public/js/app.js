@@ -1936,6 +1936,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1947,9 +1959,16 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    this.getUsers();
   },
   methods: {
+    getUsers: function getUsers() {
+      var _this = this;
+
+      axios.get('/api/user').then(function (response) {
+        _this.users = response.data;
+      });
+    },
     submitReservation: function submitReservation() {
       var userIds = this.reservation.userIds.replace(/ /g, '').split(','); //remove whitespace and convert to array
 
@@ -38376,71 +38395,93 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c("form", [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", [
-                  _vm._v("User IDs (type the id separated by a comma)")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model.trim",
-                      value: _vm.reservation.userIds,
-                      expression: "reservation.userIds",
-                      modifiers: { trim: true }
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.reservation.userIds },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.reservation,
-                        "userIds",
-                        $event.target.value.trim()
-                      )
-                    },
-                    blur: function($event) {
-                      return _vm.$forceUpdate()
-                    }
-                  }
-                })
-              ]),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-sm-8" }),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", [_vm._v("When is the reservation?")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.reservation.reservationDateTime,
-                      expression: "reservation.reservationDateTime"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "datetime-local" },
-                  domProps: { value: _vm.reservation.reservationDateTime },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+              _c("div", { staticClass: "col-sm-4" }, [
+                _c("form", [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [
+                      _vm._v("User IDs (type the id separated by a comma)")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.trim",
+                          value: _vm.reservation.userIds,
+                          expression: "reservation.userIds",
+                          modifiers: { trim: true }
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.reservation.userIds },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.reservation,
+                            "userIds",
+                            $event.target.value.trim()
+                          )
+                        },
+                        blur: function($event) {
+                          return _vm.$forceUpdate()
+                        }
                       }
-                      _vm.$set(
-                        _vm.reservation,
-                        "reservationDateTime",
-                        $event.target.value
-                      )
-                    }
-                  }
-                })
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "small",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.reservation.userIds !== null,
+                            expression: "reservation.userIds !== null"
+                          }
+                        ],
+                        staticClass: "text-danger"
+                      },
+                      [_vm._v("User IDs must exist in the database")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("When is the reservation?")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.reservation.reservationDateTime,
+                          expression: "reservation.reservationDateTime"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "datetime-local" },
+                      domProps: { value: _vm.reservation.reservationDateTime },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.reservation,
+                            "reservationDateTime",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
               ])
             ]),
             _vm._v(" "),
