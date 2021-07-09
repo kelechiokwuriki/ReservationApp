@@ -1963,6 +1963,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -58049,139 +58058,158 @@ var render = function() {
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-sm-8" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "dataTables_wrapper no-footer",
-                    attrs: { id: "data-table_wrapper" }
-                  },
-                  [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-header" }, [_vm._v("Users")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
                     _c(
-                      "table",
+                      "div",
                       {
-                        staticClass: "table display table-hover text-center",
-                        staticStyle: { width: "100%" },
-                        attrs: { id: "usersTable" }
+                        staticClass: "dataTables_wrapper no-footer",
+                        attrs: { id: "data-table_wrapper" }
                       },
                       [
-                        _vm._m(0),
-                        _vm._v(" "),
                         _c(
-                          "tbody",
-                          _vm._l(_vm.users, function(user, index) {
-                            return _c("tr", { key: index }, [
-                              _c("td", [_vm._v(_vm._s(index + 1))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(user.id))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(user.name))])
-                            ])
-                          }),
-                          0
+                          "table",
+                          {
+                            staticClass:
+                              "table display table-hover text-center",
+                            staticStyle: { width: "100%" },
+                            attrs: { id: "usersTable" }
+                          },
+                          [
+                            _vm._m(0),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.users, function(user, index) {
+                                return _c("tr", { key: index }, [
+                                  _c("td", [_vm._v(_vm._s(index + 1))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(user.id))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(user.name))])
+                                ])
+                              }),
+                              0
+                            )
+                          ]
                         )
                       ]
                     )
-                  ]
-                )
+                  ])
+                ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-sm-4" }, [
-                _c("form", [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", [
-                      _vm._v("User IDs (type the id separated by a comma)")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model.trim",
-                          value: _vm.reservation.userIds,
-                          expression: "reservation.userIds",
-                          modifiers: { trim: true }
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.reservation.userIds },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.reservation,
-                            "userIds",
-                            $event.target.value.trim()
-                          )
-                        },
-                        blur: function($event) {
-                          return _vm.$forceUpdate()
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "small",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.reservation.userIds !== null,
-                            expression: "reservation.userIds !== null"
-                          }
-                        ],
-                        staticClass: "text-danger"
-                      },
-                      [_vm._v("User IDs must exist in the database")]
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-header" }, [
+                    _vm._v(
+                      "\n                                    Reserve\n                                "
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", [_vm._v("When is the reservation?")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.reservation.reservationDateTime,
-                          expression: "reservation.reservationDateTime"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "datetime-local" },
-                      domProps: { value: _vm.reservation.reservationDateTime },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("form", [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [
+                          _vm._v("User IDs (type the id separated by a comma)")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.trim",
+                              value: _vm.reservation.userIds,
+                              expression: "reservation.userIds",
+                              modifiers: { trim: true }
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.reservation.userIds },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.reservation,
+                                "userIds",
+                                $event.target.value.trim()
+                              )
+                            },
+                            blur: function($event) {
+                              return _vm.$forceUpdate()
+                            }
                           }
-                          _vm.$set(
-                            _vm.reservation,
-                            "reservationDateTime",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "small",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.reservation.userIds !== null,
+                                expression: "reservation.userIds !== null"
+                              }
+                            ],
+                            staticClass: "text-danger"
+                          },
+                          [_vm._v("User IDs must exist in the database")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("When is the reservation?")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.reservation.reservationDateTime,
+                              expression: "reservation.reservationDateTime"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "datetime-local" },
+                          domProps: {
+                            value: _vm.reservation.reservationDateTime
+                          },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.reservation,
+                                "reservationDateTime",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        attrs: {
+                          type: "submit",
+                          disabled: _vm.disableSubmitButton
+                        },
+                        on: { click: _vm.submitReservation }
+                      },
+                      [_vm._v("Submit Reservation")]
+                    )
                   ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-success",
-                    attrs: {
-                      type: "submit",
-                      disabled: _vm.disableSubmitButton
-                    },
-                    on: { click: _vm.submitReservation }
-                  },
-                  [_vm._v("Submit Reservation")]
-                )
+                ])
               ])
             ])
           ])
