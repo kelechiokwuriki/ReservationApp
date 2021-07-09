@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\Reservation\ReservationService;
+use Exception;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
@@ -17,6 +18,11 @@ class ReservationController extends Controller
 
     public function store(Request $reservationRequest)
     {
-        return $this->reservationService->createReservation($reservationRequest->all());
+        try {
+            $result = $this->reservationService->createReservation($reservationRequest->all());
+            return response()->json($result, 200);
+        } catch(Exception $e) {
+            return response()->json($e->getMessage(), '400');
+        }
     }
 }

@@ -7,7 +7,9 @@ use App\Repositories\Reservation\ReservationRepository;
 use App\Repositories\Reservation\ReservationSettingsRepository;
 use App\Reservation;
 use App\Services\Utility\Utilities as UtilityUtilities;
+use App\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 class ReservationService
@@ -36,6 +38,11 @@ class ReservationService
             case 'individual':
                 foreach($reservation['userIds'] as $userId) {
                     // check if there is a reservation for the userid
+                    $user = User::where('id', $userId)->exists();
+
+                    if (!$user) {
+                        throw new Exception('User with id '. $userId . ' does not exist in system');
+                    }
 
                     $existingReservation = Reservation::whereHas('users', function($query) use ($userId){
                         $query->where('user_id', $userId);
@@ -60,6 +67,11 @@ class ReservationService
                 $acceptedUserIds = [];
 
                 foreach($reservation['userIds'] as $userId) {
+                    //check if user in the system
+                    if (!User::find($userId)) {
+                        throw new Exception('User with id ' . $userId . ' does not exist in the system');
+                    }
+
                     // check if there is a reservation for the userid
                     $existingReservation = Reservation::whereHas('users', function($q) use ($userId){
                         $q->where('user_id', $userId);
